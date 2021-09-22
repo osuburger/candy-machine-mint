@@ -173,7 +173,7 @@ const Home = (props: HomeProps) => {
     (async () => {
       await updateBal();
     })();
-    // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallet, props.connection, tokenMint]);
 
   useEffect(() => {
