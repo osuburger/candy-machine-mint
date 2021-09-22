@@ -79,7 +79,7 @@ const Home = (props: HomeProps) => {
       const balance = await props.connection.getBalance(wallet.publicKey);
       setBalance(balance / LAMPORTS_PER_SOL);
     }
-  }
+  } // eslint-disable-line react-hooks/exhaustive-deps
 
   const onMint = async () => {
     try {
@@ -143,7 +143,7 @@ const Home = (props: HomeProps) => {
       await updateBalance();
       setIsMinting(false);
     }
-  };
+  }; // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     (async () => {
