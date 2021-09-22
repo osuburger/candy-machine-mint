@@ -146,8 +146,32 @@ const Home = (props: HomeProps) => {
   };
 
   useEffect(() => {
+    const updateBal = async () => {
+      if (wallet?.publicKey) {
+        if (tokenMint && associatedTokenAccountAddress) {
+          const token = new Token(
+              props.connection,
+              tokenMint,
+              TOKEN_PROGRAM_ID,
+              // @ts-ignore
+              wallet
+          )
+          const mintInfo = await token.getMintInfo();
+          try {
+            const associatedTokenAccountInfo = await token.getAccountInfo(associatedTokenAccountAddress);
+            setBalance(associatedTokenAccountInfo.amount.toNumber() / 10 ** mintInfo.decimals);
+          } catch (e) {
+            // if we cant fatch associated address, assume balance is 0
+            setBalance(0);
+          }
+          return;
+        }
+        const balance = await props.connection.getBalance(wallet.publicKey);
+        setBalance(balance / LAMPORTS_PER_SOL);
+      }
+    }
     (async () => {
-      await updateBalance();
+      await updateBal();
     })();
     // eslint-disable-line react-hooks/exhaustive-deps
   }, [wallet, props.connection, tokenMint]);
